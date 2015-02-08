@@ -1,0 +1,19 @@
+{
+  "name": "app",
+  "main": "index.html",
+  "window": {
+    "transparent": true,
+    "toolbar": true,
+    "frame": true,
+    "width": 1300,
+    "height": 700
+  },
+  "dependencies": {
+    "cheerio": "^0.18.0",
+    "cheerio-httpcli": "^0.3.0",
+    "iconv": "^2.1.5",
+    "request": "^2.52.0",
+    "scraper": "0.0.9",
+    "underscore": "^1.7.0"
+  }
+}
