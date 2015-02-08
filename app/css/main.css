@@ -7,6 +7,7 @@ html, body {
 	margin: 0;
 	padding: 0;
 }
+
 #slide_menu {
 	position: fixed;
 	left: -220px;
@@ -14,11 +15,13 @@ html, body {
 	height: 100%;
 	background: #41A5A1;
 }
+
 #slide_menu dl {
 	color: #ddfdfd;
 	text-decoration: none;
 	margin-left: 4px;
 }
+
 #slide_menu dl.accordion {
 	width: 100%;
 	height: 100%;
@@ -26,6 +29,7 @@ html, body {
 	font-size: 14px;
 	overflow: scroll;
 }
+
 #slide_menu dl.accordion dt {
 	height: 30px;
 	text-indent: 10px;
@@ -35,6 +39,7 @@ html, body {
 	font-weight: bold;
 	cursor: pointer;
 }
+
 #slide_menu dl.accordion dd {
 	line-height: 1.7;
 	display: none;
@@ -92,11 +97,13 @@ html, body {
 	width: 30px;
 	color: #eee;
 }
+
 #category-divider {
 	left:  20em;
 	width: 5px;
 	border-bottom: 1px solid;
 }
+
 #categoryList {
 	left: 20em;
 	margin-left: 5px;
@@ -107,6 +114,7 @@ html, body {
 	height: 16px;
 	margin-left: 4px;
 }
+
 .header-icon-right {
 	position: absolute;
 	right: 12px;
@@ -130,12 +138,10 @@ html, body {
 	height: 14px;
 }
 
-
 #threads {
-	margin-top: 40px;
-	margin-left: 0;
+	margin: 40px 0 0 0;
 	padding-left: 0;
-	height: calc(100% - 92px);
+	height: calc(100% - 76px);
 	overflow: scroll;
 	font-size: 12px;
 	cursor: pointer;
@@ -156,7 +162,6 @@ html, body {
 	background-color: #345678;
 }
 
-
 #threads div.thread-rate {
 	float: right;
 	width: 30px;
@@ -173,10 +178,17 @@ html, body {
 	text-align: center;
 	overflow: scroll;
 }
-#threads div.thread-title {
-	height: 35px;
+
+#threads a.thread-title {
 	overflow: hidden;
-	padding-top: 15px;
+	display: block;
+	text-decoration: none;
+	height: 100%;
+	color: #345678;
+}
+
+#threads a.thread-title:hover {
+	color: #eee;
 }
 
 .body-contents > .split-pane > .split-pane-divider.dragged.touch {

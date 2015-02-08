@@ -95,34 +95,18 @@ function setMenuDl(categories) {
   var transform = {
     dt: [{
       'tag': 'dt',
-      'html': '${category} ',
+      'html': '${category}',
       children: function() {
         return json2html.transform(this.board, transform.dd);
       }
     }],
     dd: [{
       'tag': 'dd',
-      'html':' <a href="#" data-number="${number}"> ${name}</a>'
+      'html': '<a href="#" data-number="${number}">${name}</a>'
     }]
   };
 
   $('.accordion').json2html(categories, transform.dt);
-}
-
-
-function featchBody(url, done) {
-  request({url: url, encoding: 'binary'},
-    function (error, response, html) {
-    if (error) {
-      throw new Error('error: ', error);
-    }
-
-    conv = new iconv.Iconv('shift_jis','UTF-8//TRANSLIT//IGNORE');
-    html = new Buffer(html, 'binary');
-    var body = conv.convert(html).toString();
-
-    return done(body);
-  });
 }
 
 
@@ -203,7 +187,7 @@ function fetchSubjects(subjectNumber, done) {
   featchBody(url, function(body) {
     var subjectList = body.split('\n');
     var subjects = [];
-    var threadLi = '<ul id="threads">';
+    var threadLi = '';
 
     _.each(subjectList, function(subject) {
       // ex) subject
@@ -220,19 +204,18 @@ function fetchSubjects(subjectNumber, done) {
       var threadNumber = dats[0].split('.dat')[0];
 
       var countHtml = '<div class="comment-count"> ' + count + ' </div>'
-      var titleHtml = '<div class="thread-title">' + title + '</div>';
+      var titleHtml = '<a class="thread-title" href="' + subjectNumber + '-' +
+        threadNumber + '">' + title + '</a>';
 
-      threadLi += '<li data-thread-id="' + subjectNumber + '-' +
-        threadNumber + '">' + countHtml + titleHtml + '</li>';
+      threadLi += '<li>' + countHtml + titleHtml + '</li>';
       subjects.push({ title: title, count: count });
     });
 
-    threadLi += '</ul>';
     $('#threads').html('');
     $('#threads').append(threadLi);
     boardData.boards[subjectNumber].subjects = subjects;
 
-    $('.board-name').text(boardData.boards[subjectNumber].name);
+    $('#board-name').text(boardData.boards[subjectNumber].name);
 
     done();
   });
@@ -250,8 +233,11 @@ function setThreadsHover() {
 }
 
 function setThreadsEvent() {
-  $('#threads', 'li').on('click', function() {
-    openThread($(this).data('thread-id'));
+  $('#threads').on('click', 'a', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    openThread($(this).attr('href'));
+    return false;
   });
 }
 
@@ -263,12 +249,25 @@ function openThread(threadId) {
   
   var url = boardData.boards[subjectNumber].href + 'dat/' +
     threadNumber + '.dat';
-
   featchBody(url, function(body) {
     $('#thread').html(body);
-    // TODO スレ表示
     // TODO bodyに含まれるリンクを
     // gui.Shell.openExternal('http://www.2ch.net/bbsmenu.html');
     //　を使ってブラウザで開くようにする
+  });
+}
+
+
+function featchBody(url, done) {
+  request({ url: url, encoding: 'binary' },
+    function (error, response, html) {
+    if (error) {
+      throw new Error('error: ', error);
+    }
+    conv = new iconv.Iconv('shift_jis', 'UTF-8//TRANSLIT//IGNORE');
+    html = new Buffer(html, 'binary');
+    var body = conv.convert(html).toString();
+
+    return done(body);
   });
 }
